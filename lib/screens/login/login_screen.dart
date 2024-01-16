@@ -156,9 +156,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
     var loginWidget = (switch (authState) {
       AuthInitial() => _buildInitialLoginWidget(),
-      AuthRegisterInProgress() => _buildInProgressLoginWidget(),
-      AuthRegisterFailure(message: final msg) => _buildFailureLoginWidget(msg),
-      AuthRegisterSuccess() => Container(),
+      AuthLoginInProgress() => _buildInProgressLoginWidget(),
+      AuthLoginFailure(message: final msg) => _buildFailureLoginWidget(msg),
+      AuthLoginSuccess() => Container(),
       _ => Container(),
     });
 
