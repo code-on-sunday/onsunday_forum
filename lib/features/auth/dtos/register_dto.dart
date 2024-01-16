@@ -1,8 +1,8 @@
-class LoginDto {
+class RegisterDto {
   final String username;
   final String password;
 
-  const LoginDto({
+  RegisterDto({
     required this.username,
     required this.password,
   });
