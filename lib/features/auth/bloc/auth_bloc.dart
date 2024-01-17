@@ -13,12 +13,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AuthRegisterStarted>(_onRegisterStarted);
     on<AuthLoginPrefilled>(_onLoginPrefilled);
     on<AuthAuthenticateStarted>(_onAuthenticateStarted);
+    on<AuthLogoutStarted>(_onLogoutStarted);
   }
 
   final AuthRepository authRepository;
 
   void _onStarted(AuthStarted event, Emitter<AuthState> emit) async {
-    emit(AuthInitial());
+    emit(AuthAuthenticateUnauthenticated());
   }
 
   void _onLoginStarted(AuthLoginStarted event, Emitter<AuthState> emit) async {
@@ -52,8 +53,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       AuthAuthenticateStarted event, Emitter<AuthState> emit) async {
     final result = await authRepository.getToken();
     return (switch (result) {
-      Success() => emit(AuthAuthenticateSuccess(result.data)),
+      Success(data: final token) when token != null =>
+        emit(AuthAuthenticateSuccess(token)),
+      Success() => emit(AuthAuthenticateUnauthenticated()),
       Failure() => emit(AuthAuthenticateFailure(result.message)),
+    });
+  }
+
+  void _onLogoutStarted(
+      AuthLogoutStarted event, Emitter<AuthState> emit) async {
+    final result = await authRepository.logout();
+    return (switch (result) {
+      Success() => emit(AuthLogoutSuccess()),
+      Failure() => emit(AuthLogoutFailure(result.message)),
     });
   }
 }

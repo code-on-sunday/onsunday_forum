@@ -13,4 +13,8 @@ class AuthLocalDataSource {
   Future<String?> getToken() async {
     return sf.getString(AuthDataConstants.tokenKey);
   }
+
+  Future<void> deleteToken() async {
+    await sf.remove(AuthDataConstants.tokenKey);
+  }
 }

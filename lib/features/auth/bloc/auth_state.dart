@@ -42,3 +42,13 @@ class AuthAuthenticateFailure extends AuthState {
 
   final String message;
 }
+
+class AuthAuthenticateUnauthenticated extends AuthState {}
+
+class AuthLogoutSuccess extends AuthState {}
+
+class AuthLogoutFailure extends AuthState {
+  AuthLogoutFailure(this.message);
+
+  final String message;
+}
