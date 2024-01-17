@@ -33,3 +33,5 @@ class AuthRegisterStarted extends AuthEvent {
   final String username;
   final String password;
 }
+
+class AuthAuthenticateStarted extends AuthEvent {}

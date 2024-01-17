@@ -45,4 +45,17 @@ class AuthRepository {
     }
     return Success(null);
   }
+
+  Future<Result<String>> getToken() async {
+    try {
+      final token = await authLocalDataSource.getToken();
+      if (token == null) {
+        return Failure('Token not found');
+      }
+      return Success(token);
+    } catch (e) {
+      log('$e');
+      return Failure('$e');
+    }
+  }
 }

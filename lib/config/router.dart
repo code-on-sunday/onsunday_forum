@@ -1,4 +1,6 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:onsunday_forum/features/auth/bloc/auth_bloc.dart';
 import 'package:onsunday_forum/screens/home/home_screen.dart';
 import 'package:onsunday_forum/screens/login/login_screen.dart';
 import 'package:onsunday_forum/screens/post_detail/post_detail_screen.dart';
@@ -23,7 +25,9 @@ final router = GoRouter(
     if (RouteName.publicRoutes.contains(state.fullPath)) {
       return null;
     }
-    // If user is not logged in, redirect to login page
+    if (context.read<AuthBloc>().state is AuthAuthenticateSuccess) {
+      return null;
+    }
     return RouteName.login;
   },
   routes: [

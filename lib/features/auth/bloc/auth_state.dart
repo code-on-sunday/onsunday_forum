@@ -30,3 +30,15 @@ class AuthRegisterFailure extends AuthState {
 
   final String message;
 }
+
+class AuthAuthenticateSuccess extends AuthState {
+  AuthAuthenticateSuccess(this.token);
+
+  final String token;
+}
+
+class AuthAuthenticateFailure extends AuthState {
+  AuthAuthenticateFailure(this.message);
+
+  final String message;
+}

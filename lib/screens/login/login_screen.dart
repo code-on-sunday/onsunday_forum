@@ -162,6 +162,15 @@ class _LoginScreenState extends State<LoginScreen> {
       _ => Container(),
     });
 
+    loginWidget = BlocListener<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state is AuthLoginSuccess) {
+            context.read<AuthBloc>().add(AuthAuthenticateStarted());
+            context.go(RouteName.home);
+          }
+        },
+        child: loginWidget);
+
     return Scaffold(
       body: SingleChildScrollViewWithColumn(
         child: Column(
