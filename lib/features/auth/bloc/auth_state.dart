@@ -37,8 +37,18 @@ class AuthAuthenticateSuccess extends AuthState {
   final String token;
 }
 
+class AuthAuthenticateUnauthenticated extends AuthState {}
+
 class AuthAuthenticateFailure extends AuthState {
   AuthAuthenticateFailure(this.message);
+
+  final String message;
+}
+
+class AuthLogoutSuccess extends AuthState {}
+
+class AuthLogoutFailure extends AuthState {
+  AuthLogoutFailure(this.message);
 
   final String message;
 }

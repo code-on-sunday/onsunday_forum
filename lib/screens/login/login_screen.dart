@@ -155,7 +155,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final authState = context.watch<AuthBloc>().state;
 
     var loginWidget = (switch (authState) {
-      AuthInitial() => _buildInitialLoginWidget(),
+      AuthAuthenticateUnauthenticated() => _buildInitialLoginWidget(),
       AuthLoginInProgress() => _buildInProgressLoginWidget(),
       AuthLoginFailure(message: final msg) => _buildFailureLoginWidget(msg),
       AuthLoginSuccess() => Container(),
@@ -164,9 +164,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
     loginWidget = BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
-          if (state is AuthLoginSuccess) {
-            context.read<AuthBloc>().add(AuthAuthenticateStarted());
-            context.go(RouteName.home);
+          switch (state) {
+            case AuthLoginSuccess():
+              context.read<AuthBloc>().add(AuthAuthenticateStarted());
+              break;
+            case AuthAuthenticateSuccess():
+              context.go(RouteName.home);
+              break;
+            default:
           }
         },
         child: loginWidget);
