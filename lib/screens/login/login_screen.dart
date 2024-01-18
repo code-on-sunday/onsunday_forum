@@ -155,22 +155,18 @@ class _LoginScreenState extends State<LoginScreen> {
     final authState = context.watch<AuthBloc>().state;
 
     var loginWidget = (switch (authState) {
+      AuthInitial() => _buildInitialLoginWidget(),
       AuthLoginInProgress() => _buildInProgressLoginWidget(),
       AuthLoginFailure(message: final msg) => _buildFailureLoginWidget(msg),
-      _ => _buildInitialLoginWidget(),
+      AuthLoginSuccess() => Container(),
+      _ => Container(),
     });
 
     loginWidget = BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
-          switch (state) {
-            case AuthLoginSuccess():
-              context.read<AuthBloc>().add(AuthAuthenticateStarted());
-              break;
-            case AuthAuthenticateSuccess():
-              context.pushReplacement(RouteName.home);
-              break;
-            default:
-              break;
+          if (state is AuthLoginSuccess) {
+            context.read<AuthBloc>().add(AuthAuthenticateStarted());
+            context.go(RouteName.home);
           }
         },
         child: loginWidget);

@@ -144,10 +144,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final authState = context.watch<AuthBloc>().state;
 
     var registerWidget = (switch (authState) {
+      AuthInitial() => _buildInitialRegisterWidget(),
       AuthRegisterInProgress() => _buildInProgressRegisterWidget(),
       AuthRegisterFailure(message: final msg) =>
         _buildFailureRegisterWidget(msg),
-      _ => _buildInitialRegisterWidget(),
+      AuthRegisterSuccess() => Container(),
+      _ => Container(),
     });
 
     registerWidget = BlocListener<AuthBloc, AuthState>(
